@@ -3,12 +3,9 @@ const dotenv = require('dotenv');
 const path = require('path');
 const cors = require('cors');
 const { AzureOpenAI } = require('openai');
-
 dotenv.config();
-
 const app = express();
 const PORT = process.env.PORT || 3000;
-
 app.use(express.json());
 
 // CORS
@@ -16,14 +13,18 @@ const allowedOrigins = [
     'http://localhost:3000',
     process.env.ALLOWED_ORIGIN
 ].filter(Boolean);
-
 app.use(cors({
     origin: function(origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) return callback(null, true);
+
+        const normalized = origin.replace(/\/$/, '');
+        if (allowedOrigins.some(o => o.replace(/\/$/, '') === normalized)) {
+            return callback(null, true);
         }
+
+        console.log('CORS rejected origin:', JSON.stringify(origin), 'allowed:', allowedOrigins);
+        callback(new Error('Not allowed by CORS'));
     }
 }));
 
@@ -31,7 +32,6 @@ app.use(cors({
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Azure OpenAI client
-
 console.log("AZURE_OPENAI_ENDPOINT =", process.env.AZURE_OPENAI_ENDPOINT);
 console.log("AZURE_OPENAI_KEY =", process.env.AZURE_OPENAI_KEY ? "Loaded" : "Missing");
 console.log("AZURE_OPENAI_API_VERSION =", process.env.AZURE_OPENAI_API_VERSION);
@@ -46,7 +46,6 @@ const client = new AzureOpenAI({
 
 app.post('/api/chat', async (req, res) => {
     const { message, systemPrompt } = req.body;
-
     try {
         const response = await client.chat.completions.create({
             messages: [
@@ -55,16 +54,12 @@ app.post('/api/chat', async (req, res) => {
             ],
             max_completion_tokens: 2000
         });
-
         const reply = response.choices[0]?.message?.content;
-
         if (!reply) {
             console.error("Empty reply. Full response:", JSON.stringify(response, null, 2));
             return res.status(500).json({ reply: null, error: "Model returned no content." });
         }
-
         return res.json({ reply });
-
     } catch (error) {
         console.error("========== AZURE OPENAI ERROR ==========");
         console.error(error);
