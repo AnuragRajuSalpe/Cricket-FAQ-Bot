@@ -52,11 +52,12 @@ app.post('/api/chat', async (req, res) => {
                 { role: 'system', content: systemPrompt || 'You are a helpful FAQ assistant.' },
                 { role: 'user', content: message }
             ],
-            max_completion_tokens: 2000
+            max_completion_tokens: 8000
         });
         const reply = response.choices[0]?.message?.content;
         if (!reply) {
-            console.error("Empty reply. Full response:", JSON.stringify(response, null, 2));
+            console.error("Empty reply. Finish reason:", response.choices[0]?.finish_reason);
+            console.error("Full response:", JSON.stringify(response, null, 2));
             return res.status(500).json({ reply: null, error: "Model returned no content." });
         }
         return res.json({ reply });
