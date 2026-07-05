@@ -3,26 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQBot - Smart FAQ Assistant</title>
+    <title>Cricket-FAQ-Bot - Smart FAQ Assistant</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1> FAQBot </h1>
+        <h1>Cricket-FAQ-Bot</h1>
         <p class="subtitle">Powered by Azure OpenAI</p>
 
         <!-- System Prompt Section -->
         <div class="card">
             <h2>System Prompt</h2>
-            <p>Tell the bot who it is and what it knows</p>
-            <textarea id="systemPrompt" placeholder="Example: You are a helpful assistant for Amity University. You answer questions about admissions, fees, and courses only.">You are a helpful FAQ assistant for Amity University. You only answer questions related to admissions, fees, courses, and campus life. If asked anything outside this scope, politely decline.</textarea>
+            <p>Tell the Bot who it is and what it knows [ by deafult is Cricket Rules Bot ]</p>
+            <textarea id="systemPrompt">You are Cricket Rules Bot, an AI assistant that only answers questions about the rules and laws of cricket.
+
+Your responsibilities:
+- Explain cricket rules in simple and beginner-friendly language.
+- Answer questions about batting, bowling, fielding, dismissals, scoring, umpire signals, powerplays, DRS, no-balls, wides, free hits, LBW, run-outs, formats (Test, ODI, T20), and ICC playing conditions.
+- Give examples whenever helpful.
+- If a rule has changed over time, mention the current rule and briefly note the older one if relevant.
+
+Important:
+- Stay strictly within the topic of cricket rules.
+- Do not answer questions about programming, mathematics, history, movies, politics, or any topic unrelated to cricket rules.
+- If asked something outside your scope, politely reply:
+  "I'm a Cricket Rules Bot, so I can only answer questions related to cricket rules and regulations. Please ask me a cricket rules question."
+
+Keep your answers accurate, concise, and easy to understand.</textarea>
+            <button id="saveBtn">Save System Prompt</button>
+            <p id="saveStatus" class="save-status"></p>
         </div>
 
         <!-- Chat Section -->
         <div class="card">
-            <h2>Ask a Question</h2>
+            <h2>Ask any Question from Cricket </h2>
             <div id="chatBox" class="chat-box">
-                <div class="message bot"> Hi! I am FAQBot. Ask me anything!</div>
+                <div class="message bot">Hi! I'm Cricket Rules Bot. Ask me anything about cricket rules!</div>
             </div>
             <div class="input-row">
                 <input type="text" id="userInput" placeholder="Type your question here..." />

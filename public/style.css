@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Elephant', sans-serif;
     background: #0f0f1a;
     color: #ffffff;
     min-height: 100vh;
@@ -23,7 +23,7 @@ body {
 h1 {
     font-size: 3rem;
     text-align: center;
-    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    background: linear-gradient(135deg, #fb80d8, #4e7bf6);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 8px;
@@ -38,7 +38,7 @@ h1 {
 
 .card {
     background: #1a1a2e;
-    border: 1px solid #2a2a4a;
+    border: 1px solid #7878c0;
     border-radius: 16px;
     padding: 30px;
     margin-bottom: 24px;
@@ -47,11 +47,11 @@ h1 {
 .card h2 {
     font-size: 1.3rem;
     margin-bottom: 8px;
-    color: #fbbf24;
+    color: #e99d2a;
 }
 
 .card p {
-    color: #888;
+    color: #cac8c8;
     margin-bottom: 16px;
     font-size: 0.95rem;
 }
@@ -66,12 +66,12 @@ textarea {
     font-size: 0.95rem;
     min-height: 100px;
     resize: vertical;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Lucida Calligraphy', sans-serif;
 }
 
 textarea:focus {
     outline: none;
-    border-color: #f59e0b;
+    border-color: #f1b041;
 }
 
 .chat-box {
@@ -129,7 +129,7 @@ input[type="text"] {
     padding: 12px 16px;
     color: #ffffff;
     font-size: 1rem;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Elephant', sans-serif;
 }
 
 input[type="text"]:focus {
@@ -138,7 +138,7 @@ input[type="text"]:focus {
 }
 
 button {
-    background: linear-gradient(135deg, #f59e0b, #ef4444);
+    background: linear-gradient(135deg, #7d2338, #f60cfa);
     color: white;
     border: none;
     padding: 12px 24px;

@@ -31,6 +31,12 @@ app.use(cors({
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Azure OpenAI client
+
+console.log("AZURE_OPENAI_ENDPOINT =", process.env.AZURE_OPENAI_ENDPOINT);
+console.log("AZURE_OPENAI_KEY =", process.env.AZURE_OPENAI_KEY ? "Loaded" : "Missing");
+console.log("AZURE_OPENAI_API_VERSION =", process.env.AZURE_OPENAI_API_VERSION);
+console.log("AZURE_OPENAI_DEPLOYMENT =", process.env.AZURE_OPENAI_DEPLOYMENT);
+
 const client = new AzureOpenAI({
     endpoint: process.env.AZURE_OPENAI_ENDPOINT,
     apiKey: process.env.AZURE_OPENAI_KEY,
@@ -38,7 +44,6 @@ const client = new AzureOpenAI({
     deployment: process.env.AZURE_OPENAI_DEPLOYMENT
 });
 
-// FAQ Bot endpoint
 app.post('/api/chat', async (req, res) => {
     const { message, systemPrompt } = req.body;
 
@@ -48,17 +53,22 @@ app.post('/api/chat', async (req, res) => {
                 { role: 'system', content: systemPrompt || 'You are a helpful FAQ assistant.' },
                 { role: 'user', content: message }
             ],
-            max_tokens: 500
+            max_completion_tokens: 2000
         });
 
-        res.json({ 
-            reply: response.choices[0].message.content 
-        });
+        const reply = response.choices[0]?.message?.content;
+
+        if (!reply) {
+            console.error("Empty reply. Full response:", JSON.stringify(response, null, 2));
+            return res.status(500).json({ reply: null, error: "Model returned no content." });
+        }
+
+        return res.json({ reply });
 
     } catch (error) {
-        res.status(500).json({ 
-            error: 'Something went wrong. Please try again.' 
-        });
+        console.error("========== AZURE OPENAI ERROR ==========");
+        console.error(error);
+        return res.status(500).json({ reply: null, error: error.message });
     }
 });
 
